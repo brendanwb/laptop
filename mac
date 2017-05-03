@@ -119,15 +119,16 @@ brew "ctags"
 brew "git"
 brew "openssl"
 brew "rcm"
-brew "reattach-to-user-namespace"
+#brew "reattach-to-user-namespace"
 brew "the_silver_searcher"
 brew "tmux"
 brew "vim"
 brew "zsh"
+brew "gitsh"
 
 # Heroku
-brew "heroku-toolbelt"
-brew "parity"
+#brew "heroku-toolbelt"
+#brew "parity"
 
 # GitHub
 brew "hub"
@@ -136,23 +137,31 @@ brew "hub"
 brew "imagemagick"
 
 # Testing
-brew "qt@5.5"
+#brew "qt@5.5"
 
 # Programming languages and package managers
 brew "libyaml" # should come after openssl
 brew "node"
 brew "rbenv"
 brew "ruby-build"
-brew "yarn"
+brew "elixir"
+#brew "yarn"
+
+# Vim
+brew "macvim"
+
+# Search
+brew "ack"
 
 # Databases
 brew "postgres", restart_service: true
 brew "redis", restart_service: true
+
 EOF
 
-fancy_echo "Symlink qmake binary to /usr/local/bin for Capybara Webkit..."
-brew unlink qt@5.5
-brew link --force qt@5.5
+#fancy_echo "Symlink qmake binary to /usr/local/bin for Capybara Webkit..."
+#brew unlink qt@5.5
+#brew link --force qt@5.5
 
 fancy_echo "Configuring Ruby ..."
 find_latest_ruby() {

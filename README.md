@@ -26,7 +26,7 @@ Install
 Download, review, then execute the script:
 
 ```sh
-curl --remote-name https://raw.githubusercontent.com/thoughtbot/laptop/master/mac
+curl --remote-name https://raw.githubusercontent.com/brendanwb/laptop/master/mac
 less mac
 sh mac 2>&1 | tee ~/laptop.log
 ```
@@ -71,13 +71,6 @@ Unix tools:
 [Tmux]: http://tmux.github.io/
 [Zsh]: http://www.zsh.org/
 
-Heroku tools:
-
-* [Heroku Toolbelt] and [Parity] for interacting with the Heroku API
-
-[Heroku Toolbelt]: https://toolbelt.heroku.com/
-[Parity]: https://github.com/thoughtbot/parity
-
 GitHub tools:
 
 * [Hub] for interacting with the GitHub API
@@ -90,10 +83,7 @@ Image tools:
 
 Testing tools:
 
-* [Qt 5] for headless JavaScript testing via [Capybara Webkit]
-
-[Qt 5]: http://qt-project.org/
-[Capybara Webkit]: https://github.com/thoughtbot/capybara-webkit
+* PhantomJS
 
 Programming languages, package managers, and configuration:
 
@@ -102,7 +92,6 @@ Programming languages, package managers, and configuration:
 * [Rbenv] for managing versions of Ruby
 * [Ruby Build] for installing Rubies
 * [Ruby] stable for writing general-purpose code
-* [Yarn] for managing JavaScript packages
 
 [Bundler]: http://bundler.io/
 [ImageMagick]: http://www.imagemagick.org/
@@ -111,7 +100,6 @@ Programming languages, package managers, and configuration:
 [Rbenv]: https://github.com/sstephenson/rbenv
 [Ruby Build]: https://github.com/sstephenson/ruby-build
 [Ruby]: https://www.ruby-lang.org/en/
-[Yarn]: https://yarnpkg.com/en/
 
 Databases:
 
@@ -134,31 +122,40 @@ For example:
 #!/bin/sh
 
 brew bundle --file=- <<EOF
-brew "Caskroom/cask/dockertoolbox"
-brew "go"
-brew "ngrok"
-brew "watch"
+  brew "caskroom/cask/brew-cask"
+  brew "caskroom/cask/iterm2"
+  brew "caskroom/cask/google-chrome"
+  brew "caskroom/cask/slack"
+  brew "caskroom/cask/Alfred"
+  brew "caskroom/cask/caffeine"
+  brew "caskroom/cask/timer"
+  brew "caskroom/cask/flux"
+  brew "caskroom/cask/whatsapp"
+  brew "caskroom/cask/gpgtools"
+  brew "elixir"
+  brew "ansible"
+  brew "ffmpeg"
+  brew "youtube-dl"
 EOF
 
-default_docker_machine() {
-  docker-machine ls | grep -Fq "default"
-}
+fancy_echo "Setting up Postgres ..."
+initdb /usr/local/var/postgres -E utf8
+ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql94.plist
+createuser -s -P wellbe
 
-if ! default_docker_machine; then
-  docker-machine create --driver virtualbox default
-fi
-
-default_docker_machine_running() {
-  default_docker_machine | grep -Fq "Running"
-}
-
-if ! default_docker_machine_running; then
-  docker-machine start default
-fi
+fancy_echo "Setting up Redis ..."
+ln -sfv /usr/local/opt/redis/*.plist ~/Library/LaunchAgents
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
 
 fancy_echo "Cleaning up old Homebrew formulae ..."
 brew cleanup
 brew cask cleanup
+
+fancy_echo "Pulling down dotfiles ..."
+if [ ! -d $HOME/dotfiles" ]; then
+  git clone git@github.com:brendanwb/dotfiles.git
+fi
 
 if [ -r "$HOME/.rcrc" ]; then
   fancy_echo "Updating dotfiles ..."

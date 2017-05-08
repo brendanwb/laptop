@@ -119,33 +119,27 @@ brew "ctags"
 brew "git"
 brew "openssl"
 brew "rcm"
-#brew "reattach-to-user-namespace"
+brew "reattach-to-user-namespace"
 brew "the_silver_searcher"
 brew "tmux"
 brew "vim"
 brew "zsh"
 brew "gitsh"
 
-# Heroku
-#brew "heroku-toolbelt"
-#brew "parity"
-
 # GitHub
 brew "hub"
 
+# Testing
+brew "phantomjs182"
+
 # Image manipulation
 brew "imagemagick"
-
-# Testing
-#brew "qt@5.5"
 
 # Programming languages and package managers
 brew "libyaml" # should come after openssl
 brew "node"
 brew "rbenv"
 brew "ruby-build"
-brew "elixir"
-#brew "yarn"
 
 # Vim
 brew "macvim"
@@ -154,14 +148,16 @@ brew "macvim"
 brew "ack"
 
 # Databases
-brew "postgres", restart_service: true
+tap "homebrew/versions"
+brew "postgresql94", restart_service: true
 brew "redis", restart_service: true
 
 EOF
 
-#fancy_echo "Symlink qmake binary to /usr/local/bin for Capybara Webkit..."
-#brew unlink qt@5.5
-#brew link --force qt@5.5
+#fancy_echo "Setup Postgres ..."
+#ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
+#launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql94.plist
+#createuser -s -P wellbe
 
 fancy_echo "Configuring Ruby ..."
 find_latest_ruby() {
@@ -183,6 +179,11 @@ gem update --system
 gem_install_or_update 'bundler'
 number_of_cores=$(sysctl -n hw.ncpu)
 bundle config --global jobs $((number_of_cores - 1))
+
+if [ -d "$HOME/wellbe/" ] && [ -f "$HOME/.ssh/id_rsa" ]; then
+  fancy_echo "Adding Wellbe Refactor ..."
+  git clone git@github.com:Wellbeme/wellbe-refactor.git ~/wellbe/
+fi
 
 if [ -f "$HOME/.laptop.local" ]; then
   fancy_echo "Running your customizations from ~/.laptop.local ..."

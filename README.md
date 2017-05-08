@@ -81,10 +81,6 @@ Image tools:
 
 * [ImageMagick] for cropping and resizing images
 
-Testing tools:
-
-* PhantomJS
-
 Programming languages, package managers, and configuration:
 
 * [Bundler] for managing Ruby libraries

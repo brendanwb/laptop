@@ -129,9 +129,6 @@ brew "gitsh"
 # GitHub
 brew "hub"
 
-# Testing
-brew "phantomjs182"
-
 # Image manipulation
 brew "imagemagick"
 

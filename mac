@@ -148,16 +148,10 @@ brew "macvim"
 brew "ack"
 
 # Databases
-tap "homebrew/versions"
-brew "postgresql94", restart_service: true
+brew "postgresql", restart_service: true
 brew "redis", restart_service: true
 
 EOF
-
-#fancy_echo "Setup Postgres ..."
-#ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
-#launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql94.plist
-#createuser -s -P wellbe
 
 fancy_echo "Configuring Ruby ..."
 find_latest_ruby() {
@@ -180,7 +174,7 @@ gem_install_or_update 'bundler'
 number_of_cores=$(sysctl -n hw.ncpu)
 bundle config --global jobs $((number_of_cores - 1))
 
-if [ -d "$HOME/wellbe/" ] && [ -f "$HOME/.ssh/id_rsa" ]; then
+if [ ! -d "$HOME/wellbe/" ] && [ -f "$HOME/.ssh/id_rsa" ]; then
   fancy_echo "Adding Wellbe Refactor ..."
   git clone git@github.com:Wellbeme/wellbe-refactor.git ~/wellbe/
 fi

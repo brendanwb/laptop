@@ -122,24 +122,23 @@ For example:
 #!/bin/sh
 
 brew bundle --file=- <<EOF
-  brew "caskroom/cask/brew-cask"
-  brew "caskroom/cask/iterm2"
-  brew "caskroom/cask/google-chrome"
-  brew "caskroom/cask/slack"
-  brew "caskroom/cask/Alfred"
-  brew "caskroom/cask/caffeine"
-  brew "caskroom/cask/timer"
-  brew "caskroom/cask/flux"
-  brew "caskroom/cask/whatsapp"
-  brew "caskroom/cask/gpgtools"
   brew "elixir"
   brew "ansible"
   brew "ffmpeg"
   brew "youtube-dl"
 EOF
 
+brew cask install iterm2
+brew cask install google-chrome
+brew cask install slack
+brew cask install Alfred
+brew cask install caffeine
+brew cask install timer
+brew cask install flux
+brew cask install whatsapp
+brew cask install gpgtools
+
 fancy_echo "Setting up Postgres ..."
-initdb /usr/local/var/postgres -E utf8
 ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
 launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql94.plist
 createuser -s -P wellbe

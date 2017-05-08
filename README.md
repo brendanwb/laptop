@@ -138,6 +138,11 @@ brew cask install flux
 brew cask install whatsapp
 brew cask install gpgtools
 
+if [ ! -d "$HOME/wellbe/" ] && [ -f "$HOME/.ssh/id_rsa" ]; then
+  fancy_echo "Adding Wellbe Refactor ..."
+  git clone git@github.com:Wellbeme/wellbe-refactor.git ~/wellbe/
+fi
+
 fancy_echo "Setting up Postgres ..."
 ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
 launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql94.plist
